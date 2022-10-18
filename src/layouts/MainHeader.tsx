@@ -1,7 +1,11 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-
+import useAuth from '../hooks/useAuth'
 function MainHeader() {
+  const auth = useAuth()
+  const handleLogout = () => {
+    auth.logout?.(() => console.log('test'))
+  }
   return (
     <div className='bg-gray-800 text-gray-100 flex justify-between w-full '>
       <a href='/#' className='block p-4 text-white font-bold'>
@@ -25,10 +29,10 @@ function MainHeader() {
           </button>
         </div>) */}
 
-      <Link className='flex justify-center items-center gap-4 mr-10' to={'/login'}>
+      <button className='flex justify-center items-center gap-4 mr-10' onClick={handleLogout}>
         {' '}
-        Sign In
-      </Link>
+        Logout
+      </button>
     </div>
   )
 }

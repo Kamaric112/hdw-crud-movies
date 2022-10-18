@@ -6,10 +6,18 @@ import HomePage from '../pages/HomePage'
 import LoginPage from '../pages/LoginPage'
 import MovieDetailPage from '../pages/MovieDetailPage'
 import NotFoundPage from '../pages/NotFoundPage'
+import AuthRequire from './AuthRequire'
 function Router() {
   return (
     <Routes>
-      <Route path='/' element={<MainLayout />}>
+      <Route
+        path='/'
+        element={
+          <AuthRequire>
+            <MainLayout />
+          </AuthRequire>
+        }
+      >
         <Route index element={<HomePage />}></Route>
         <Route path='movie/:movieId' element={<MovieDetailPage />}></Route>
       </Route>
