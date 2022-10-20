@@ -3,6 +3,7 @@ import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux'
 import { fetchGenres } from '../features/genres/fetchGenres'
 import { AppDispatch, RootState } from '../app/store'
 import { Genres } from '../features/genres/type'
+import { Link } from 'react-router-dom'
 const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector
 function SideBar() {
   const dispatch = useDispatch<AppDispatch>()
@@ -19,6 +20,7 @@ function SideBar() {
 
   return (
     <>
+      <Link to='/watch'>WatchList</Link>
       {genres.map((genre: Genres) => (
         <a
           href='/#'

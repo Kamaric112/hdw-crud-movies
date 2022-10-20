@@ -53,18 +53,3 @@ export const selectGenres = (state: RootState) => state.genre.genres
 export const { startLoading, hasError, getGenresSuccess } = slice.actions
 
 export default slice.reducer
-
-// export const getGenres123 =
-//   () => async (dispatch: (arg0: { payload: Genres | undefined; type: string }) => void) => {
-//     dispatch(slice.actions.startLoading())
-//     try {
-//       const response = await apiService.get(`/genre/movie/list?api_key=${APIKEY}&language=en-US`)
-//       console.log(response.data.genres)
-//       dispatch(slice.actions.getGenresSuccess(response.data.genres))
-//     } catch (error) {
-//       console.log(error)
-//     }
-//   }
-
-// import apiService from '../../app/apiService'
-// import { APIKEY } from '../../app/config'

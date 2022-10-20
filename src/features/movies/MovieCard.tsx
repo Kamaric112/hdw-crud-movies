@@ -1,11 +1,16 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useContext } from 'react'
 import { Movie } from './type'
+import { WatchContext } from '../../contexts/MovieContext'
+import DeleteModal from '../../components/DeleteModal'
 
 interface MovieCardProps {
   movie: Movie
 }
 function MovieCard({ movie }: MovieCardProps) {
+  const { addMovieToWatchlist, removeMovieFromWatchlist, watchlist } = useContext(WatchContext)
+  const storedMovie = watchlist.find((o) => o.id === movie.id)
+
+  const watchlistDisabled = storedMovie ? true : false
   return (
     <div>
       <div className='max-w-xs max-h-fit	 overflow-hidden rounded-xl bg-white shadow-md duration-200 hover:scale-105 hover:shadow-xl'>
@@ -52,10 +57,32 @@ function MovieCard({ movie }: MovieCardProps) {
               <span className='text-gray-600 ml-3'>{movie.vote_count} Reviews</span>
             </span>
           </div>
-          <button className='w-full rounded-md bg-indigo-600  py-2 text-indigo-100 hover:bg-indigo-500 hover:shadow-md duration-75'>
-            {/* <Link to={`/movie/${movie.id}`}>Learn more </Link> */}
-            <Link to={'/movie/123'}>Learn more </Link>
-          </button>
+          {watchlistDisabled ? (
+            <>
+              <button
+                className='w-full rounded-md bg-indigo-600  py-2 text-indigo-100 hover:bg-indigo-500 hover:shadow-md duration-75'
+                onClick={() => removeMovieFromWatchlist?.(movie.id)}
+              >
+                Remove from WatchList
+              </button>
+              <DeleteModal movie={movie} />
+            </>
+          ) : (
+            <button
+              className='w-full rounded-md bg-indigo-600  py-2 text-indigo-100 hover:bg-indigo-500 hover:shadow-md duration-75'
+              disabled={watchlistDisabled}
+              onClick={() => addMovieToWatchlist?.(movie)}
+            >
+              Add to WatchList
+            </button>
+          )}
+          {/* <button
+            className='w-full rounded-md bg-indigo-600  py-2 text-indigo-100 hover:bg-indigo-500 hover:shadow-md duration-75'
+            disabled={watchlistDisabled}
+            onClick={() => addMovieToWatchlist?.(movie)}
+          >
+            Add to WatchList
+          </button> */}
         </div>
       </div>
     </div>

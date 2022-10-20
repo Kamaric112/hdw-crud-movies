@@ -1,5 +1,8 @@
 import { createContext, useReducer, useEffect } from 'react'
 
+const INITIALIZE = 'INITIALIZE'
+const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
+const LOGOUT = 'LOGOUT'
 interface LoginContextInterface {
   isInitialized: boolean
   isAuthenticated: boolean
@@ -23,9 +26,6 @@ type ACTIONTYPE =
 type AuthProviderProps = {
   children: React.ReactNode
 }
-const INITIALIZE = 'INITIALIZE'
-const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
-const LOGOUT = 'LOGOUT'
 
 const initialState: LoginContextInterface = {
   isInitialized: false,
@@ -56,7 +56,7 @@ const reducer = (state: LoginContextInterface, action: ACTIONTYPE) => {
       return {
         ...state,
         isAuthenticated: false,
-        user: null,
+        username: null,
       }
     default:
       return state
@@ -67,14 +67,6 @@ const AuthContext = createContext({ ...initialState })
 
 function AuthProvider({ children }: AuthProviderProps) {
   const [state, dispatch] = useReducer(reducer, initialState)
-  // const [user, setUser] = useState<string | null>(null)
-  // const [password, setPassword] = useState<string | null>(null)
-  // const navigate = useNavigate()
-  // const signIn = (newUser: string, password: string) => {
-  //   setUser(newUser)
-  //   setPassword(password)
-  //   navigate('/')
-  // }
 
   useEffect(() => {
     const initialize = async () => {

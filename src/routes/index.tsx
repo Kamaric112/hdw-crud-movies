@@ -6,6 +6,7 @@ import HomePage from '../pages/HomePage'
 import LoginPage from '../pages/LoginPage'
 import MovieDetailPage from '../pages/MovieDetailPage'
 import NotFoundPage from '../pages/NotFoundPage'
+import WatchPage from '../pages/WatchPage'
 import AuthRequire from './AuthRequire'
 function Router() {
   return (
@@ -20,6 +21,7 @@ function Router() {
       >
         <Route index element={<HomePage />}></Route>
         <Route path='page/:pageId' element={<HomePage />}></Route>
+        <Route path='watch' element={<WatchPage />}></Route>
         <Route path='movie/:movieId' element={<MovieDetailPage />}></Route>
       </Route>
       <Route element={<BlankLayout />}>
