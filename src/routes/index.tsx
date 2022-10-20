@@ -19,6 +19,7 @@ function Router() {
         }
       >
         <Route index element={<HomePage />}></Route>
+        <Route path='page/:pageId' element={<HomePage />}></Route>
         <Route path='movie/:movieId' element={<MovieDetailPage />}></Route>
       </Route>
       <Route element={<BlankLayout />}>

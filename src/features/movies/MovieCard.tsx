@@ -1,19 +1,23 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { Movie } from './type'
 
-function MovieCard() {
+interface MovieCardProps {
+  movie: Movie
+}
+function MovieCard({ movie }: MovieCardProps) {
   return (
     <div>
       <div className='max-w-xs max-h-fit	 overflow-hidden rounded-xl bg-white shadow-md duration-200 hover:scale-105 hover:shadow-xl'>
         <img
-          // src={`https://image.tmdb.org/t/p/w1280/${movie.poster_path}
-          // `}
-          src='https://placehold.jp/400x400.png'
-          alt='plant'
+          src={`https://image.tmdb.org/t/p/w1280/${movie.poster_path}
+          `}
+          // src='https://placehold.jp/400x400.png'
+          alt={movie.title}
           className='h-3/4 w-3/4 mx-auto	'
         />
         <div className='p-5 my-auto'>
-          <h1 className='text-large  text-gray-700 text-2xl	text-center my-2 '>movie.title</h1>
+          <h1 className='text-large  text-gray-700 text-2xl	text-center my-2 '>{movie.title}</h1>
           <span className='flex items-center'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -29,7 +33,7 @@ function MovieCard() {
               />
             </svg>
 
-            <p>movie.release_date</p>
+            <p>{movie.release_date}</p>
           </span>
           <div className='flex mb-4'>
             <span className='flex items-center'>
@@ -44,8 +48,8 @@ function MovieCard() {
               >
                 <path d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'></path>
               </svg>
-              <span className='text-gray-600 ml-3'>movie.vote_average</span>
-              <span className='text-gray-600 ml-3'>movie.vote_count Reviews</span>
+              <span className='text-gray-600 ml-3'>{movie.vote_average}</span>
+              <span className='text-gray-600 ml-3'>{movie.vote_count} Reviews</span>
             </span>
           </div>
           <button className='w-full rounded-md bg-indigo-600  py-2 text-indigo-100 hover:bg-indigo-500 hover:shadow-md duration-75'>
