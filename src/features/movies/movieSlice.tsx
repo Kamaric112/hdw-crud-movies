@@ -20,6 +20,9 @@ const slice = createSlice({
       state.isLoading = false
       state.error = action.payload
     },
+    setPage(state) {
+      state.page = 1
+    },
     getPage(state, action) {
       state.page = action.payload
     },
@@ -54,5 +57,5 @@ export default slice.reducer
 
 export const selectMovies = (state: RootState) => state.movie.movies
 
-export const { startLoading, hasError, getPage, increasePageCount, decreasePageCount } =
+export const { startLoading, hasError, getPage, increasePageCount, decreasePageCount, setPage } =
   slice.actions

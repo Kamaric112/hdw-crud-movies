@@ -4,19 +4,16 @@ import { fetchGenres } from '../features/genres/fetchGenres'
 import { AppDispatch, RootState } from '../app/store'
 import { Genres } from '../features/genres/type'
 import { Link } from 'react-router-dom'
+
 const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector
+
 function SideBar() {
   const dispatch = useDispatch<AppDispatch>()
   useEffect(() => {
     dispatch(fetchGenres())
   }, [dispatch])
-  // const genres = useSelector((state) => state.genre.genres)
 
   const { genres } = useTypedSelector((state) => state.genre)
-  // useEffect(() => {
-  //   dispatch(getGenres123())
-  // }, [])
-  console.log(genres)
 
   return (
     <>

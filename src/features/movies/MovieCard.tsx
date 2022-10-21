@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { Movie } from './type'
-import { WatchContext } from '../../contexts/MovieContext'
+import { WatchContext } from '../../contexts/WatchContext'
 import DeleteModal from '../../components/DeleteModal'
 
 interface MovieCardProps {

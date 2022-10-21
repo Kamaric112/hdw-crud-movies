@@ -1,10 +1,11 @@
 import React, { useContext } from 'react'
-import { WatchContext } from '../contexts/MovieContext'
+import { WatchContext } from '../contexts/WatchContext'
 import { Movie } from '../features/movies/type'
 interface ModalProps {
   movie: Movie
 }
-export default function Modal({ movie }: ModalProps) {
+
+export default function DeleteModal({ movie }: ModalProps) {
   const { removeMovieFromWatchlist } = useContext(WatchContext)
   const [showModal, setShowModal] = React.useState(false)
   const handleDelete = () => {

@@ -3,6 +3,7 @@ import { createContext, useReducer, useEffect } from 'react'
 const INITIALIZE = 'INITIALIZE'
 const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 const LOGOUT = 'LOGOUT'
+
 interface LoginContextInterface {
   isInitialized: boolean
   isAuthenticated: boolean
@@ -33,6 +34,7 @@ const initialState: LoginContextInterface = {
   username: null,
   password: null,
 }
+
 const reducer = (state: LoginContextInterface, action: ACTIONTYPE) => {
   switch (action.type) {
     case INITIALIZE: {

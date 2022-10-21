@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { increasePageCount, decreasePageCount } from './movieSlice'
-import { RootState, AppDispatch } from '../../app/store'
-import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux'
+import { AppDispatch } from '../../app/store'
+import { useDispatch } from 'react-redux'
 interface props {
   page: number
 }

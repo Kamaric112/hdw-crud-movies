@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { WatchContext } from '../contexts/MovieContext'
+import { WatchContext } from '../contexts/WatchContext'
 import MovieCard from '../features/movies/MovieCard'
 import { Movie } from '../features/movies/type'
 function WatchPage() {
