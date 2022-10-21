@@ -1,16 +1,21 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { increasePageCount, decreasePageCount } from './movieSlice'
+import { RootState, AppDispatch } from '../../app/store'
+import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux'
 interface props {
   page: number
-  setPage: React.Dispatch<React.SetStateAction<number>>
 }
-function PaginationButton({ page, setPage }: props) {
+
+function PaginationButton({ page }: props) {
+  const dispatch = useDispatch<AppDispatch>()
+
   return (
     <div className='flex items-center space-x-1'>
       <Link
         to={`/page/${page - 1}`}
         onClick={() => {
-          setPage((prevState) => prevState - 1)
+          dispatch(decreasePageCount())
           console.log(page)
         }}
       >
@@ -23,7 +28,7 @@ function PaginationButton({ page, setPage }: props) {
       <Link
         to={`/page/${page + 1}`}
         onClick={() => {
-          setPage((prevState) => prevState + 1)
+          dispatch(increasePageCount())
           console.log(page)
         }}
       >

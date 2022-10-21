@@ -23,6 +23,14 @@ const slice = createSlice({
     getPage(state, action) {
       state.page = action.payload
     },
+    increasePageCount(state) {
+      state.page += 1
+      localStorage.setItem('page', JSON.stringify(state.page))
+    },
+    decreasePageCount(state) {
+      state.page -= 1
+      localStorage.setItem('page', JSON.stringify(state.page))
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchMovies.pending, (state) => {
@@ -46,4 +54,5 @@ export default slice.reducer
 
 export const selectMovies = (state: RootState) => state.movie.movies
 
-export const { startLoading, hasError, getPage } = slice.actions
+export const { startLoading, hasError, getPage, increasePageCount, decreasePageCount } =
+  slice.actions
