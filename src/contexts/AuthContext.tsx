@@ -1,124 +1,66 @@
-import { createContext, useReducer, useEffect } from 'react'
+import React, { createContext, useReducer, useEffect, useState } from 'react'
 
 const INITIALIZE = 'INITIALIZE'
 const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 const LOGOUT = 'LOGOUT'
 
-interface LoginContextInterface {
-  isInitialized: boolean
+export interface AuthContextValues {
+  authProvider: AuthProvider
+  // isInitialized: boolean
   isAuthenticated: boolean
   username: string | null
   password: string | null
-  login?: (username: string, password: string, callback: () => void) => Promise<void>
-  logout?: (callback: () => void) => Promise<void>
+  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-type ACTIONTYPE =
-  | {
-      type: 'INITIALIZE'
-      payload: { isAuthenticated: boolean; username: string | null; password: string | null }
-    }
-  | {
-      type: 'LOGIN_SUCCESS'
-      payload: { username: string | null; password: string | null }
-    }
-  | { type: 'LOGOUT' }
+export interface AuthProvider {
+  login: (username: string, password: string) => Promise<void>
+  logout: () => Promise<void>
+}
 
-type AuthProviderProps = {
+type AuthContextProviderProps = {
   children: React.ReactNode
+  authProvider: AuthProvider
 }
 
-const initialState: LoginContextInterface = {
-  isInitialized: false,
-  isAuthenticated: false,
-  username: null,
-  password: null,
-}
+const AuthContext = createContext({} as AuthContextValues)
 
-const reducer = (state: LoginContextInterface, action: ACTIONTYPE) => {
-  switch (action.type) {
-    case INITIALIZE: {
-      const { isAuthenticated, username, password } = action.payload
-      return {
-        ...state,
-        isInitialized: true,
-        isAuthenticated,
-        username,
-        password,
-      }
-    }
-    case LOGIN_SUCCESS:
-      return {
-        ...state,
-        isAuthenticated: true,
-        username: action.payload.username,
-        password: action.payload.password,
-      }
-    case LOGOUT:
-      return {
-        ...state,
-        isAuthenticated: false,
-        username: null,
-      }
-    default:
-      return state
-  }
-}
-
-const AuthContext = createContext({ ...initialState })
-
-function AuthProvider({ children }: AuthProviderProps) {
-  const [state, dispatch] = useReducer(reducer, initialState)
+function AuthContextProvider({ children, authProvider }: AuthContextProviderProps) {
+  const [username, setUsername] = useState<string | null>(null)
+  const [password, setPassword] = useState<string | null>(null)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
 
   useEffect(() => {
-    const initialize = async () => {
+    const initialize = () => {
       try {
         const username = window.localStorage.getItem('username')
         const password = window.localStorage.getItem('password')
         if (username) {
-          dispatch({
-            type: INITIALIZE,
-            payload: { isAuthenticated: true, username, password },
-          })
+          console.log('have username')
+          setUsername(username)
+          setPassword(password)
+          setIsAuthenticated(true)
         } else {
-          dispatch({
-            type: INITIALIZE,
-            payload: { isAuthenticated: false, username: null, password: null },
-          })
+          console.log('logged out')
+          authProvider.logout
+          setIsAuthenticated(false)
         }
       } catch (error) {
+        // authProvider.logout
+        // setIsAuthenticated(false)
         console.log(error)
       }
     }
     initialize()
   }, [])
-  const login = async (username: string, password: string, callback: () => void) => {
-    window.localStorage.setItem('username', username)
-    window.localStorage.setItem('password', password)
-    dispatch({
-      type: LOGIN_SUCCESS,
-      payload: { username, password },
-    })
-    callback()
-  }
-  const logout = async (callback: () => void) => {
-    window.localStorage.removeItem('username')
-    window.localStorage.removeItem('password')
-    dispatch({ type: LOGOUT })
-    callback()
-  }
 
   return (
     <AuthContext.Provider
-      value={{
-        ...state,
-        login,
-        logout,
-      }}
+      value={{ authProvider, setIsAuthenticated, isAuthenticated, username, password }}
     >
       {children}
     </AuthContext.Provider>
   )
 }
 
-export { AuthContext, AuthProvider }
+export { AuthContext, AuthContextProvider }

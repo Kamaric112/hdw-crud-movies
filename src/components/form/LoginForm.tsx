@@ -1,7 +1,8 @@
 import React from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import useAuth from '../../hooks/useAuth'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { useLogin } from '../../hooks/useLogin'
 
 interface Inputs {
   username: string
@@ -9,27 +10,22 @@ interface Inputs {
 }
 
 export default function LoginForm() {
-  const auth = useAuth()
-  const location = useLocation()
-  const navigate = useNavigate()
-
+  const { login } = useLogin()
+  const { isAuthenticated } = useAuth()
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<Inputs>()
 
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    const from = location.state?.from?.pathname || '/'
+  const navigate = useNavigate()
+
+  const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
     const username = data.username
     const password = data.passWordRequired
-    auth.login?.(username, password, () => {
-      navigate(from, { replace: true })
-    })
+    login({ username: username, password: password })
+    if (isAuthenticated) navigate('/', { replace: true })
   }
-
-  console.log(watch('username')) // watch input value by passing the name of it
 
   return (
     <div className='bg-gray-400 h-screen overflow-hidden flex items-center justify-center'>
@@ -49,8 +45,9 @@ export default function LoginForm() {
               id='username'
               className='bg-gray-200 pl-12 py-2 md:py-4 focus:outline-none w-full'
               placeholder='Username'
-              {...register('username')}
+              {...register('username', { required: true })}
             />
+            {errors.passWordRequired && <span>This field is required</span>}
           </div>
           <div className='flex items-center text-lg mb-6 md:mb-8'>
             <svg className='absolute ml-3' viewBox='0 0 24 24' width='24'>

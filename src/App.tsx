@@ -1,17 +1,18 @@
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
-import { AuthProvider } from './contexts/AuthContext'
+import { AuthContextProvider } from './contexts/AuthContext'
 import { WatchProvider } from './contexts/WatchContext'
+import { authProvider } from './pages/login/AuthProvider'
 import Router from './routes'
 function App() {
   return (
-    <AuthProvider>
-      <BrowserRouter>
+    <BrowserRouter>
+      <AuthContextProvider authProvider={authProvider}>
         <WatchProvider>
           <Router />
         </WatchProvider>
-      </BrowserRouter>
-    </AuthProvider>
+      </AuthContextProvider>
+    </BrowserRouter>
   )
 }
 

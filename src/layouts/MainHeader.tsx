@@ -2,7 +2,7 @@ import React from 'react'
 import { useSearchParams, createSearchParams } from 'react-router-dom'
 
 import { debounce } from 'lodash'
-
+import { useLogout } from '../hooks/useLogout'
 import useAuth from '../hooks/useAuth'
 
 interface MainHeaderProps {
@@ -10,10 +10,7 @@ interface MainHeaderProps {
 }
 
 function MainHeader({ setSearchValue }: MainHeaderProps) {
-  const auth = useAuth()
-  const handleLogout = () => {
-    auth.logout?.(() => console.log('test'))
-  }
+  const { logout } = useLogout()
 
   const debouncedSearch = React.useRef(
     debounce(async (searchValue) => {
@@ -47,7 +44,7 @@ function MainHeader({ setSearchValue }: MainHeaderProps) {
         </div>
       </div>
 
-      <button className='flex justify-center items-center gap-4 mr-10' onClick={handleLogout}>
+      <button className='flex justify-center items-center gap-4 mr-10' onClick={logout}>
         {' '}
         Logout
       </button>
