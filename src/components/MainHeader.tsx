@@ -1,29 +1,16 @@
 import React from 'react'
-import { useSearchParams, createSearchParams } from 'react-router-dom'
-
-import { debounce } from 'lodash'
 import { useLogout } from '../hooks/useLogout'
-import useAuth from '../hooks/useAuth'
+import useSearch from '../hooks/useSearch'
+// import usePagination from '../hooks/usePagination'
 
-interface MainHeaderProps {
-  setSearchValue: React.Dispatch<React.SetStateAction<string>>
-}
-
-function MainHeader({ setSearchValue }: MainHeaderProps) {
+function MainHeader() {
+  // const { goToPage } = usePagination()
+  const { search, setSearchValue } = useSearch()
   const { logout } = useLogout()
 
-  const debouncedSearch = React.useRef(
-    debounce(async (searchValue) => {
-      setSearchValue(searchValue)
-      console.log(searchValue)
-    }, 500),
-  ).current
-
-  const [searchParams, setSearchParams] = useSearchParams()
-
   async function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    debouncedSearch(e.target.value)
-    setSearchParams(createSearchParams({ query: e.target.value }))
+    setSearchValue(e.target.value)
+    // goToPage(1)
   }
 
   return (
@@ -37,7 +24,7 @@ function MainHeader({ setSearchValue }: MainHeaderProps) {
           <input
             type='text'
             className='px-4 py-2 w-56  text-gray-800'
-            placeholder='Search...'
+            placeholder={search}
             onChange={handleChange}
           />
           <button className='px-4 text-white bg-gray-600 border-l '>Search</button>

@@ -1,8 +1,4 @@
-import React, { createContext, useReducer, useEffect, useState } from 'react'
-
-const INITIALIZE = 'INITIALIZE'
-const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
-const LOGOUT = 'LOGOUT'
+import React, { createContext, useEffect, useState } from 'react'
 
 export interface AuthContextValues {
   authProvider: AuthProvider
@@ -28,7 +24,7 @@ const AuthContext = createContext({} as AuthContextValues)
 function AuthContextProvider({ children, authProvider }: AuthContextProviderProps) {
   const [username, setUsername] = useState<string | null>(null)
   const [password, setPassword] = useState<string | null>(null)
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState(true)
 
   useEffect(() => {
     const initialize = () => {
@@ -41,14 +37,14 @@ function AuthContextProvider({ children, authProvider }: AuthContextProviderProp
           setPassword(password)
           setIsAuthenticated(true)
         } else {
-          console.log('logged out')
-          authProvider.logout
+          // console.log('logged out')
+          authProvider.logout()
           setIsAuthenticated(false)
         }
       } catch (error) {
         // authProvider.logout
         // setIsAuthenticated(false)
-        console.log(error)
+        // console.log(error)
       }
     }
     initialize()
