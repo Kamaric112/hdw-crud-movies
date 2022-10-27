@@ -33,7 +33,7 @@ const slice = createSlice({
         state.error = 'error'
       }),
       builder.addCase(fetchMoviesQuery.fulfilled, (state, { payload }) => {
-        state.error = '123'
+        state.error = 'error'
         state.movies = payload
       })
   },

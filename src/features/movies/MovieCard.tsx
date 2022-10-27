@@ -2,6 +2,8 @@ import React, { useContext } from 'react'
 import { Movie } from './type'
 import { WatchContext } from '../../contexts/WatchContext'
 import DeleteModal from '../../components/DeleteModal'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
+import 'react-lazy-load-image-component/src/effects/blur.css'
 
 interface MovieCardProps {
   movie: Movie
@@ -14,12 +16,21 @@ function MovieCard({ movie }: MovieCardProps) {
   return (
     <div>
       <div className='max-w-xs max-h-fit	 overflow-hidden rounded-xl bg-white shadow-md duration-200 hover:scale-105 hover:shadow-xl'>
-        <img
+        {/* <img
           src={`https://image.tmdb.org/t/p/w1280/${movie.poster_path}
           `}
           // src='https://placehold.jp/400x400.png'
           alt={movie.title}
-          className='h-3/4 w-3/4 mx-auto	'
+          className='h-3/4 w-3/4 mx-auto'
+        /> */}
+        <LazyLoadImage
+          className='h-3/4 w-3/4 mx-auto'
+          effect='blur'
+          alt={movie.title}
+          // height={240}
+          // width={360}
+          src={`https://image.tmdb.org/t/p/w1280/${movie.poster_path}
+      `} // use normal <img> attributes as props
         />
         <div className='p-5 my-auto'>
           <h1 className='text-large  text-gray-700 text-2xl	text-center my-2 '>{movie.title}</h1>

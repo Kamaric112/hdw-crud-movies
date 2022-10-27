@@ -4,6 +4,10 @@ import { fetchGenres } from '../features/genres/fetchGenres'
 import { AppDispatch, RootState } from '../app/store'
 import { Genres } from '../features/genres/type'
 import { Link } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
+import apiService from '../app/apiService'
+import fetchGenreTest from '../app/fetch/fetchGenreTest'
+import { useQueryClient } from '@tanstack/react-query/build/lib/QueryClientProvider'
 
 const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector
 

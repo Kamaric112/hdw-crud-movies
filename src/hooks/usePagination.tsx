@@ -2,12 +2,13 @@ import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { AppDispatch } from '../app/store'
 import { useDispatch } from 'react-redux'
-import { fetchMovies } from '../features/movies/fetchMovies'
+import { fetchMovies, fetchMoviesQuery } from '../features/movies/fetchMovies'
 
 function usePagination() {
   const dispatch = useDispatch<AppDispatch>()
   const [params, setParams] = useSearchParams()
   const [pageIndex, setPageIndex] = useState<number>(1)
+  const searchParam = params.get('search')
 
   useEffect(() => {
     const pageParam = params.get('page')
@@ -24,15 +25,27 @@ function usePagination() {
 
   function nextPage() {
     if (pageIndex < 500) {
+      if (searchParam) {
+        const query = searchParam
+        const page = pageIndex + 1
+        dispatch(fetchMoviesQuery({ query, page }))
+      } else {
+        dispatch(fetchMovies(pageIndex + 1))
+      }
       setPageIndex((oldPageIndex) => ++oldPageIndex)
-      dispatch(fetchMovies(pageIndex + 1))
     }
   }
 
   function previousPage() {
     if (pageIndex > 1) {
+      if (searchParam) {
+        const query = searchParam
+        const page = pageIndex - 1
+        dispatch(fetchMoviesQuery({ query, page }))
+      } else {
+        dispatch(fetchMovies(pageIndex - 1))
+      }
       setPageIndex((oldPageIndex) => oldPageIndex - 1)
-      dispatch(fetchMovies(pageIndex - 1))
     }
   }
 

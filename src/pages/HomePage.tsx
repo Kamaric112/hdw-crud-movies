@@ -4,15 +4,28 @@ import { useSelector, TypedUseSelectorHook, useDispatch } from 'react-redux'
 import { Movie } from '../features/movies/type'
 import PaginationButton from '../components/PaginationButton'
 import MainHeader from '../components/MainHeader'
-import { fetchMovies } from '../features/movies/fetchMovies'
+import { fetchMovies, fetchMoviesQuery } from '../features/movies/fetchMovies'
 import { useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
+
 const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector
 
 function HomePage() {
   const dispatch = useDispatch<AppDispatch>()
+  const [params, setParams] = useSearchParams()
 
   useEffect(() => {
-    dispatch(fetchMovies(1))
+    const searchParam = params.get('search')
+    const pageParam = params.get('page')
+    if (searchParam && pageParam) {
+      const query = searchParam
+      const page = parseInt(pageParam)
+      dispatch(fetchMoviesQuery({ query, page }))
+    } else if (pageParam) {
+      dispatch(fetchMovies(parseInt(pageParam) || 1))
+    } else {
+      dispatch(fetchMovies(1))
+    }
   }, [dispatch])
 
   const { movies } = useTypedSelector((state) => state.movie)

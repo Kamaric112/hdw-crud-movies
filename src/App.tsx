@@ -4,12 +4,20 @@ import { AuthContextProvider } from './contexts/AuthContext'
 import { WatchProvider } from './contexts/WatchContext'
 import { authProvider } from './pages/login/AuthProvider'
 import Router from './routes'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+
 function App() {
+  const queryClient = new QueryClient()
+
   return (
     <BrowserRouter>
       <AuthContextProvider authProvider={authProvider}>
         <WatchProvider>
-          <Router />
+          <QueryClientProvider client={queryClient}>
+            <Router />
+            <ReactQueryDevtools initialIsOpen={false} />
+          </QueryClientProvider>
         </WatchProvider>
       </AuthContextProvider>
     </BrowserRouter>

@@ -18,7 +18,8 @@ function useSearch(resetPage?: () => void) {
     if (searchParam) {
       setSearchValue(searchParam)
       setPreviousKeyword(searchParam)
-      dispatch(fetchMoviesQuery(searchParam))
+      const query = searchParam
+      dispatch(fetchMoviesQuery({ query }))
     }
     if (searchParam == '') {
       return
@@ -49,7 +50,8 @@ function useSearch(resetPage?: () => void) {
     if (debounceValue == '') {
       dispatch(fetchMovies(1)) // change page after done pagination
     } else {
-      dispatch(fetchMoviesQuery(debounceValue))
+      const query = debounceValue
+      dispatch(fetchMoviesQuery({ query }))
     }
     console.log(debounceValue)
   }, [debounceValue])
