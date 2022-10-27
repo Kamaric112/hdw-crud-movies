@@ -27,10 +27,12 @@ function MovieCard({ movie }: MovieCardProps) {
           className='h-3/4 w-3/4 mx-auto'
           effect='blur'
           alt={movie.title}
+          src={`https://image.tmdb.org/t/p/w1280/${movie.poster_path}`}
+          placeholderSrc='https://placehold.jp/400x400.png'
+
           // height={240}
           // width={360}
-          src={`https://image.tmdb.org/t/p/w1280/${movie.poster_path}
-      `} // use normal <img> attributes as props
+          // use normal <img> attributes as props
         />
         <div className='p-5 my-auto'>
           <h1 className='text-large  text-gray-700 text-2xl	text-center my-2 '>{movie.title}</h1>
