@@ -11,14 +11,8 @@ interface LoginContextInterface {
 }
 
 type ACTIONTYPE =
-  | {
-      type: 'ADD_MOVIE_TO_WATCHLIST'
-      payload: Movie
-    }
-  | {
-      type: 'REMOVE_MOVIE_FROM_WATCHLIST'
-      payload: number
-    }
+  | { type: 'ADD_MOVIE_TO_WATCHLIST'; payload: Movie }
+  | { type: 'REMOVE_MOVIE_FROM_WATCHLIST'; payload: number }
 
 type WatchProviderProps = {
   children: React.ReactNode

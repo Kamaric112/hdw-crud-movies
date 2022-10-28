@@ -33,6 +33,7 @@ function usePagination() {
         dispatch(fetchMovies(pageIndex + 1))
       }
       setPageIndex((oldPageIndex) => ++oldPageIndex)
+      window.scrollTo(0, 0)
     }
   }
 
@@ -46,6 +47,7 @@ function usePagination() {
         dispatch(fetchMovies(pageIndex - 1))
       }
       setPageIndex((oldPageIndex) => oldPageIndex - 1)
+      window.scrollTo(0, 0)
     }
   }
 
@@ -54,6 +56,7 @@ function usePagination() {
       setPageIndex(pageNumber)
       dispatch(fetchMovies(pageNumber))
     }
+    window.scrollTo(0, 0)
   }
 
   return {

@@ -1,7 +1,8 @@
 import { RootState } from '../../app/store'
-import { createSlice } from '@reduxjs/toolkit'
-import { MovieState } from './type'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { MovieState, Movie } from './type'
 import { fetchMovies, fetchMoviesQuery } from './fetchMovies'
+
 const initialState: MovieState = {
   isLoading: false,
   error: null,
@@ -25,9 +26,9 @@ const slice = createSlice({
     builder.addCase(fetchMovies.pending, (state) => {
       state.isLoading = true
     }),
-      builder.addCase(fetchMovies.fulfilled, (state, { payload }) => {
+      builder.addCase(fetchMovies.fulfilled, (state, action: PayloadAction<Movie[]>) => {
         state.error = 'test'
-        state.movies = payload
+        state.movies = action.payload
       }),
       builder.addCase(fetchMovies.rejected, (state) => {
         state.error = 'error'

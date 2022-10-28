@@ -7,6 +7,7 @@ const fetchMoviesData = async (page: number): Promise<Movie[]> => {
     `/movie/popular?api_key=${APIKEY}&language=en-US&page=${page}`,
   )
   console.log(response.data)
+
   return response.data.results
 }
 
