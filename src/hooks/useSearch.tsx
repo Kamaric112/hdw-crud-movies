@@ -3,7 +3,12 @@ import { useSearchParams } from 'react-router-dom'
 import useDebounce from './useDebounce'
 import { AppDispatch } from '../app/store'
 import { useDispatch } from 'react-redux'
-import { fetchMovies, fetchMoviesQuery } from '../features/movies/fetchMovies'
+import {
+  fetchMovies,
+  fetchMoviesQuery,
+  fetchMoviesQueryPage,
+  fetchMoviesTotalPage,
+} from '../features/movies/fetchMovies'
 
 function useSearch(resetPage?: () => void) {
   const dispatch = useDispatch<AppDispatch>()
@@ -18,11 +23,12 @@ function useSearch(resetPage?: () => void) {
     if (searchParam) {
       setSearchValue(searchParam)
       setPreviousKeyword(searchParam)
-      const query = searchParam
-      dispatch(fetchMoviesQuery({ query }))
+      // const query = searchParam
+      // dispatch(fetchMoviesQuery({ query }))
+      // dispatch(fetchMoviesQueryPage({ query }))
     }
     if (searchParam == '') {
-      return
+      dispatch(fetchMoviesTotalPage(1)) // change page after done pagination
     } else if (!searchParam) {
       return
     }
@@ -39,9 +45,12 @@ function useSearch(resetPage?: () => void) {
     setPreviousKeyword(debounceValue)
 
     if (debounceValue.length > 0) {
-      params.delete('page') // delete page param (ask)
+      // params.delete('page') // delete page param (ask)
       params.set('search', debounceValue)
       setParams(params)
+      const query = debounceValue
+      dispatch(fetchMoviesQuery({ query }))
+      dispatch(fetchMoviesQueryPage({ query }))
     } else {
       params.delete('search')
       setParams(params)
@@ -49,6 +58,8 @@ function useSearch(resetPage?: () => void) {
 
     if (debounceValue == '') {
       dispatch(fetchMovies(1)) // change page after done pagination
+      dispatch(fetchMoviesTotalPage(1)) // change page after done pagination
+      params.delete('search')
     } else {
       const query = debounceValue
       dispatch(fetchMoviesQuery({ query }))

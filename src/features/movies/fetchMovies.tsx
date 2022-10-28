@@ -1,12 +1,22 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { Movie } from './type'
-import fetchMoviesData from '../../app/fetch/fetchMovieData'
-import fetchMoviesWithQuery from '../../app/fetch/fetchMoviesWithQuery'
+import fetchMoviesData, { fetchMoviesPage } from '../../app/fetch/fetchMovieData'
+import fetchMoviesWithQuery, {
+  fetchMoviesQueryWithPage,
+} from '../../app/fetch/fetchMoviesWithQuery'
 
 export const fetchMovies = createAsyncThunk<Movie[], number>('movies/fetch', async (page = 1) => {
   const response = await fetchMoviesData(page)
   return response
 })
+
+export const fetchMoviesTotalPage = createAsyncThunk<number, number>(
+  'movies/fetchPage',
+  async (page = 1) => {
+    const response = await fetchMoviesPage(page)
+    return response
+  },
+)
 
 // export const fetchMoviesQuery = createAsyncThunk<Movie[], string | null>(
 //   'movies/fetchQuery',
@@ -23,3 +33,11 @@ export const fetchMoviesQuery = createAsyncThunk(
     return response
   },
 )
+
+export const fetchMoviesQueryPage = createAsyncThunk(
+  'movies/fetchQueryPage',
+  async ({ query, page = 1 }: { query: string | null; page?: number }) => {
+    const response = await fetchMoviesQueryWithPage(query, page)
+    return response
+  },
+) // ASK

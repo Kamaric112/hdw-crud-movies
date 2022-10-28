@@ -1,16 +1,16 @@
 import React from 'react'
 import { useLogout } from '../hooks/useLogout'
 import useSearch from '../hooks/useSearch'
-// import usePagination from '../hooks/usePagination'
+import usePagination from '../hooks/usePagination'
 
 function MainHeader() {
-  // const { goToPage } = usePagination()
+  const { goToPage } = usePagination()
   const { search, setSearchValue } = useSearch()
   const { logout } = useLogout()
 
   async function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setSearchValue(e.target.value)
-    // goToPage(1)
+    goToPage(1)
   }
 
   return (

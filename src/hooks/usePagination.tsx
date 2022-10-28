@@ -2,7 +2,12 @@ import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { AppDispatch } from '../app/store'
 import { useDispatch } from 'react-redux'
-import { fetchMovies, fetchMoviesQuery } from '../features/movies/fetchMovies'
+import {
+  fetchMovies,
+  fetchMoviesQuery,
+  fetchMoviesTotalPage,
+  fetchMoviesQueryPage,
+} from '../features/movies/fetchMovies'
 
 function usePagination() {
   const dispatch = useDispatch<AppDispatch>()
@@ -13,48 +18,36 @@ function usePagination() {
   useEffect(() => {
     const pageParam = params.get('page')
     if (pageParam) {
-      setPageIndex(parseInt(pageParam) || 1)
-      dispatch(fetchMovies(parseInt(pageParam)))
+      setPageIndex(parseInt(pageParam))
+      if (searchParam) {
+        const query = searchParam
+        const page = parseInt(pageParam)
+        dispatch(fetchMoviesQuery({ query, page }))
+        dispatch(fetchMoviesQueryPage({ query, page }))
+      } else {
+        setPageIndex(parseInt(pageParam) || 1)
+        dispatch(fetchMovies(parseInt(pageParam)))
+        dispatch(fetchMoviesTotalPage(parseInt(pageParam)))
+      }
     }
-  }, [])
+  }, [searchParam])
 
   useEffect(() => {
     params.set('page', pageIndex.toString())
     setParams(params)
   }, [pageIndex])
 
-  function nextPage() {
-    if (pageIndex < 500) {
-      if (searchParam) {
-        const query = searchParam
-        const page = pageIndex + 1
-        dispatch(fetchMoviesQuery({ query, page }))
-      } else {
-        dispatch(fetchMovies(pageIndex + 1))
-      }
-      setPageIndex((oldPageIndex) => ++oldPageIndex)
-      window.scrollTo(0, 0)
-    }
-  }
-
-  function previousPage() {
-    if (pageIndex > 1) {
-      if (searchParam) {
-        const query = searchParam
-        const page = pageIndex - 1
-        dispatch(fetchMoviesQuery({ query, page }))
-      } else {
-        dispatch(fetchMovies(pageIndex - 1))
-      }
-      setPageIndex((oldPageIndex) => oldPageIndex - 1)
-      window.scrollTo(0, 0)
-    }
-  }
-
   function goToPage(pageNumber: number) {
-    if (pageNumber !== pageIndex) {
-      setPageIndex(pageNumber)
+    console.log(pageIndex)
+    setPageIndex(pageNumber)
+    if (searchParam) {
+      const query = searchParam
+      const page = pageNumber
+      dispatch(fetchMoviesQuery({ query, page }))
+      dispatch(fetchMoviesQueryPage({ query, page }))
+    } else {
       dispatch(fetchMovies(pageNumber))
+      dispatch(fetchMoviesTotalPage(pageNumber))
     }
     window.scrollTo(0, 0)
   }
@@ -62,8 +55,8 @@ function usePagination() {
   return {
     pageIndex,
     // pageSize,
-    nextPage,
-    previousPage,
+    // nextPage,
+    // previousPage,
     goToPage,
     // changePageSize,
   }

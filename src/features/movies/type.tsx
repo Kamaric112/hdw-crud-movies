@@ -6,6 +6,7 @@ export type Movie = {
   vote_average: number
   vote_count: number
   overview: string
+  results?: Movie[]
 }
 
 export type MovieState = {

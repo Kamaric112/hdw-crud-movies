@@ -4,7 +4,12 @@ import { useSelector, TypedUseSelectorHook, useDispatch } from 'react-redux'
 import { Movie } from '../features/movies/type'
 import PaginationButton from '../components/Paginatior'
 import MainHeader from '../components/MainHeader'
-import { fetchMovies, fetchMoviesQuery } from '../features/movies/fetchMovies'
+import {
+  fetchMovies,
+  fetchMoviesQuery,
+  fetchMoviesQueryPage,
+  fetchMoviesTotalPage,
+} from '../features/movies/fetchMovies'
 import { useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
@@ -21,19 +26,23 @@ function HomePage() {
       const query = searchParam
       const page = parseInt(pageParam)
       dispatch(fetchMoviesQuery({ query, page }))
+      dispatch(fetchMoviesQueryPage({ query, page }))
     } else if (pageParam) {
       dispatch(fetchMovies(parseInt(pageParam) || 1))
+      dispatch(fetchMoviesTotalPage(parseInt(pageParam) || 1))
     } else {
       dispatch(fetchMovies(1))
+      dispatch(fetchMoviesTotalPage(1))
     }
   }, [dispatch])
 
   const { movies } = useTypedSelector((state) => state.movie)
-  console.log(movies)
+  // console.log(movies)
 
   return (
     <div className='flex-1  text-2x1 font-bold flex flex-col justify-between items-center'>
       <MainHeader />
+      <PaginationButton />
 
       <div className='flex h-full items-start justify-evenly flex-wrap bg-indigo-50 px-4 gap-5'>
         {movies.map((movie: Movie) => (
@@ -41,9 +50,7 @@ function HomePage() {
         ))}
       </div>
 
-      <div className='flex items-center space-x-1'>
-        <PaginationButton />
-      </div>
+      <div className='flex items-center space-x-1'></div>
     </div>
   )
 }

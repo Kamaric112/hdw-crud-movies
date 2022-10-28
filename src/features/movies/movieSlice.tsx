@@ -1,13 +1,23 @@
 import { RootState } from '../../app/store'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { MovieState, Movie } from './type'
-import { fetchMovies, fetchMoviesQuery } from './fetchMovies'
+import {
+  fetchMovies,
+  fetchMoviesQuery,
+  fetchMoviesTotalPage,
+  fetchMoviesQueryPage,
+} from './fetchMovies'
 
 const initialState: MovieState = {
   isLoading: false,
   error: null,
   page: 1,
   movies: [],
+}
+
+type Test = {
+  results: Movie[]
+  total_pages: number
 }
 
 const slice = createSlice({
@@ -30,12 +40,26 @@ const slice = createSlice({
         state.error = 'test'
         state.movies = action.payload
       }),
+      // builder.addCase(fetchMovies.fulfilled, (state, action) => {
+      //   const { results, total_pages }:Test = action.payload
+      //   state.error = 'test'
+      //   console.log(results)
+      //   state.movies = results
+      // }),
       builder.addCase(fetchMovies.rejected, (state) => {
         state.error = 'error'
       }),
       builder.addCase(fetchMoviesQuery.fulfilled, (state, { payload }) => {
         state.error = 'error'
         state.movies = payload
+      }),
+      builder.addCase(fetchMoviesTotalPage.fulfilled, (state, { payload }) => {
+        state.error = 'error'
+        state.page = payload
+      }),
+      builder.addCase(fetchMoviesQueryPage.fulfilled, (state, { payload }) => {
+        state.error = 'error'
+        state.page = payload
       })
   },
 })

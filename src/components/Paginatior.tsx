@@ -1,12 +1,17 @@
 import React from 'react'
 import usePagination from '../hooks/usePagination'
-
+import { useSelector, TypedUseSelectorHook } from 'react-redux'
+import { RootState } from '../app/store'
 // interface props {
 //   page: number
 // }
+const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector
 
 function PaginationButton() {
-  const { pageIndex, nextPage, previousPage, goToPage } = usePagination()
+  const { pageIndex, goToPage } = usePagination()
+  const { page } = useTypedSelector((state) => state.movie)
+  console.log(pageIndex)
+  console.log(page)
   return (
     // <div className='flex items-center space-x-1'>
     //   <button onClick={previousPage}>Previous</button>
@@ -27,7 +32,7 @@ function PaginationButton() {
       <ul className='inline-flex'>
         <li>
           <button
-            onClick={previousPage}
+            onClick={() => goToPage(pageIndex - 1)}
             className='h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white border border-r-0 border-indigo-600 rounded-l-lg focus:shadow-outline hover:bg-indigo-100'
           >
             Prev
@@ -42,7 +47,7 @@ function PaginationButton() {
           )}
         </li>
 
-        {pageIndex !== 1 && (
+        {pageIndex > 2 && (
           <li>
             <button
               onClick={() => goToPage(pageIndex - 1)}
@@ -57,7 +62,7 @@ function PaginationButton() {
             {pageIndex}
           </button>
         </li>
-        {pageIndex < 500 && (
+        {pageIndex < page && (
           <li>
             <button
               onClick={() => goToPage(pageIndex + 1)}
@@ -68,20 +73,20 @@ function PaginationButton() {
           </li>
         )}
 
-        {pageIndex < 500 && (
+        {pageIndex < page && (
           <li>
             <button
-              onClick={() => goToPage(500)}
+              onClick={() => goToPage(page)}
               className='h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white border border-r-0 border-indigo-600 focus:shadow-outline'
             >
-              500
+              {page}
             </button>
           </li>
         )}
 
         <li>
           <button
-            onClick={nextPage}
+            onClick={() => goToPage(pageIndex + 1)}
             className='h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white border border-indigo-600 rounded-r-lg focus:shadow-outline hover:bg-indigo-100'
           >
             Next
