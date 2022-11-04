@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { AppDispatch } from '../app/store'
-import { useDispatch } from 'react-redux'
+import { AppDispatch, RootState } from '../app/store'
+import { useDispatch, TypedUseSelectorHook, useSelector } from 'react-redux'
 import {
   fetchMovies,
   fetchMoviesQuery,
@@ -9,11 +9,14 @@ import {
   fetchMoviesQueryPage,
 } from '../features/movies/fetchMovies'
 
+const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector
+
 function usePagination() {
   const dispatch = useDispatch<AppDispatch>()
   const [params, setParams] = useSearchParams()
   const [pageIndex, setPageIndex] = useState<number>(1)
   const searchParam = params.get('search')
+  const { page } = useTypedSelector((state) => state.movie)
 
   useEffect(() => {
     const pageParam = params.get('page')
@@ -54,6 +57,7 @@ function usePagination() {
 
   return {
     pageIndex,
+    page,
     // pageSize,
     // nextPage,
     // previousPage,

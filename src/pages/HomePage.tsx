@@ -2,7 +2,7 @@ import MovieCard from '../features/movies/MovieCard'
 import { AppDispatch, RootState } from '../app/store'
 import { useSelector, TypedUseSelectorHook, useDispatch } from 'react-redux'
 import { Movie } from '../features/movies/type'
-import PaginationButton from '../components/Paginatior'
+import PaginationButton from '../components/Paginator'
 import MainHeader from '../components/MainHeader'
 import {
   fetchMovies,
@@ -26,7 +26,7 @@ function HomePage() {
       const query = searchParam
       const page = parseInt(pageParam)
       dispatch(fetchMoviesQuery({ query, page }))
-      dispatch(fetchMoviesQueryPage({ query, page }))
+      dispatch(fetchMoviesQueryPage({ query, page })) // duplicate fetch
     } else if (pageParam) {
       dispatch(fetchMovies(parseInt(pageParam) || 1))
       dispatch(fetchMoviesTotalPage(parseInt(pageParam) || 1))
