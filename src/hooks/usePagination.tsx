@@ -1,69 +1,43 @@
-import { useState, useEffect } from 'react'
-import { useSearchParams } from 'react-router-dom'
-import { AppDispatch, RootState } from '../app/store'
-import { useDispatch, TypedUseSelectorHook, useSelector } from 'react-redux'
-import {
-  fetchMovies,
-  fetchMoviesQuery,
-  fetchMoviesTotalPage,
-  fetchMoviesQueryPage,
-} from '../features/movies/fetchMovies'
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { RootState } from '../app/store';
+import { TypedUseSelectorHook, useSelector } from 'react-redux';
 
-const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector
+import useRenderOnURLChanged from './useRenderOnURLChanged';
+
+const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 function usePagination() {
-  const dispatch = useDispatch<AppDispatch>()
-  const [params, setParams] = useSearchParams()
-  const [pageIndex, setPageIndex] = useState<number>(1)
-  const searchParam = params.get('search')
-  const { page } = useTypedSelector((state) => state.movie)
+  const [params, setParams] = useSearchParams();
+  const { firstLoad, pageParam } = useRenderOnURLChanged();
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const { totalPage } = useTypedSelector(state => state.movie);
+
+  // useEffect(() => {
+  //   if (!firstLoad) {
+  //     params.set('page', currentPage.toString());
+  //     setParams(params);
+  //   }
+  //   console.log(currentPage);
+  // }, [currentPage]);
 
   useEffect(() => {
-    const pageParam = params.get('page')
-    if (pageParam) {
-      setPageIndex(parseInt(pageParam))
-      if (searchParam) {
-        const query = searchParam
-        const page = parseInt(pageParam)
-        dispatch(fetchMoviesQuery({ query, page }))
-        dispatch(fetchMoviesQueryPage({ query, page }))
-      } else {
-        setPageIndex(parseInt(pageParam) || 1)
-        dispatch(fetchMovies(parseInt(pageParam)))
-        dispatch(fetchMoviesTotalPage(parseInt(pageParam)))
-      }
-    }
-  }, [searchParam])
-
-  useEffect(() => {
-    params.set('page', pageIndex.toString())
-    setParams(params)
-  }, [pageIndex])
+    const pageParam = params.get('page');
+    if (pageParam) setCurrentPage(Number(pageParam) || 1);
+  }, [pageParam]);
 
   function goToPage(pageNumber: number) {
-    console.log(pageIndex)
-    setPageIndex(pageNumber)
-    if (searchParam) {
-      const query = searchParam
-      const page = pageNumber
-      dispatch(fetchMoviesQuery({ query, page }))
-      dispatch(fetchMoviesQueryPage({ query, page }))
-    } else {
-      dispatch(fetchMovies(pageNumber))
-      dispatch(fetchMoviesTotalPage(pageNumber))
-    }
-    window.scrollTo(0, 0)
+    setCurrentPage(pageNumber);
+    params.set('page', pageNumber.toString());
+    setParams(params);
+    window.scrollTo(0, 0);
   }
 
   return {
-    pageIndex,
-    page,
-    // pageSize,
-    // nextPage,
-    // previousPage,
+    currentPage,
+    totalPage,
     goToPage,
-    // changePageSize,
-  }
+  };
 }
 
-export default usePagination
+export default usePagination;
