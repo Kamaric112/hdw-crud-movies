@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { AppDispatch, RootState } from '../app/store';
-import { useDispatch, TypedUseSelectorHook, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { AppDispatch } from '../app/store';
+import { useDispatch } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 import {
   fetchMovies,
@@ -15,7 +15,7 @@ function useRenderOnURLChanged() {
   const dispatch = useDispatch<AppDispatch>();
   const searchParam = params.get('search');
   const pageParam = params.get('page');
-  let firstLoad = true;
+
   useEffect(() => {
     if (searchParam && pageParam) {
       const query = searchParam;
@@ -29,9 +29,8 @@ function useRenderOnURLChanged() {
       dispatch(fetchMovies(1));
       dispatch(fetchMoviesTotalPage(1));
     }
-    firstLoad = false;
   }, [dispatch, pageParam, searchParam]);
-  return { searchParam, pageParam, firstLoad };
+  return { pageParam, searchParam };
 }
 
 export default useRenderOnURLChanged;
