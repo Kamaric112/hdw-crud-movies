@@ -1,11 +1,11 @@
 import MovieCard from '../features/movies/MovieCard';
-import { RootState } from '../app/store';
-import { useSelector, TypedUseSelectorHook } from 'react-redux';
+import { RootState, AppDispatch } from '../app/store';
+import { useSelector, TypedUseSelectorHook, useDispatch } from 'react-redux';
 import { Movie } from '../features/movies/type';
 import Paginator from '../components/Paginator';
 import MainHeader from '../components/MainHeader';
 import useUpdateParams from '../hooks/useUpdateParams';
-
+import { fetchMovies } from '../features/movies/fetchMovies';
 import { useEffect, useState } from 'react';
 import useRenderOnURLChanged from '../hooks/useRenderOnURLChanged';
 
@@ -14,18 +14,20 @@ const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 function HomePage() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const { totalPage } = useTypedSelector(state => state.movie);
+  const { movies } = useTypedSelector(state => state.movie);
   const { updatePageParam } = useUpdateParams();
   const { pageParam } = useRenderOnURLChanged();
-  const { movies } = useTypedSelector(state => state.movie);
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     if (typeof pageParam == 'string') {
       setCurrentPage(parseInt(pageParam));
     }
-  }, []);
+  }, [pageParam]);
 
   const handlePageChanged = (page: number) => {
     setCurrentPage(page);
+    dispatch(fetchMovies(page));
     updatePageParam(page);
   };
 
