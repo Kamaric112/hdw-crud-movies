@@ -19,11 +19,11 @@ function LoginPage() {
   });
 
   const navigate = useNavigate();
-  const onSubmit = (data: Inputs) => {
+  const onSubmit = async (data: Inputs) => {
     console.log(data);
     const username = data.username;
     const password = data.password;
-    login({ username: username, password: password });
+    await login({ username: username, password: password });
     if (isAuthenticated) navigate('/', { replace: true });
   };
   return (
