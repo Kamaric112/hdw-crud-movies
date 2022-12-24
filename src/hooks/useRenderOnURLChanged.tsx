@@ -20,6 +20,7 @@ function useRenderOnURLChanged() {
     if (searchParam && pageParam) {
       const query = searchParam;
       const page = parseInt(pageParam);
+      console.log(setParams('test'));
       dispatch(fetchMoviesQuery({ query, page }));
       dispatch(fetchMoviesQueryPage({ query, page })); // duplicate fetch
     } else if (pageParam) {
