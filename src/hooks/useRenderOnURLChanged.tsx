@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { AppDispatch } from '../app/store';
 import { useDispatch } from 'react-redux';
-import { useSearchParams, useParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import {
   fetchMovies,
   fetchMoviesQuery,
