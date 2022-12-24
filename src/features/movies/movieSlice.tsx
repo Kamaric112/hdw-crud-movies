@@ -10,11 +10,6 @@ const initialState: MovieState = {
   movies: [],
 };
 
-type Test = {
-  results: Movie[];
-  total_pages: number;
-};
-
 const slice = createSlice({
   name: 'movie',
   initialState,
