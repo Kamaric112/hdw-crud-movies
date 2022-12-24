@@ -1,25 +1,25 @@
 # Movie App
 
-Demo App: https://coder-comm-truong.netlify.app/
+Demo App: https://movie-site-truong.netlify.app/
 
-This is a social media web app built using React, Redux, and Material-UI. It allows users to create a profile, connect with friends, and share posts and photos.
+This is a movie app built using React, TypeScript, and Tailwind CSS. It allows users to search for movies and view details about them.
 
 ## Features
 
-- Create a user profile with a display name, profile picture, and bio
-- Connect with friends by sending and accepting friend requests
-- Create and share posts with text, images, and videos
-- Like and comment on posts made by friends
-- View a feed of posts from all friends or just a specific friend
+- Search for movies by title
+- View a list of search results with poster images and movie titles
+- Navigate between pages and search results
+- Add movies into personal watch list
 
 ## Built with
 
 - HTML,CSS
+- TypeScript
 - React
-- Material UI library
+- TailwindCSS
 - Redux, Redux Thunk, Redux Toolkit
 - Axios
-- API: CoderSchool social media API
+- API: The Movie Database API
 
 ## Getting started
 
