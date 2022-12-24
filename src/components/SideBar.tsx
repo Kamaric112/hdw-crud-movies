@@ -4,6 +4,7 @@ import { fetchGenres } from '../features/genres/fetchGenres';
 import { AppDispatch, RootState } from '../app/store';
 import { Genres } from '../features/genres/type';
 import { Link } from 'react-router-dom';
+import useUpdateParams from '../hooks/useUpdateParams';
 
 const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
@@ -13,19 +14,24 @@ function SideBar() {
     dispatch(fetchGenres());
   }, [dispatch]);
 
+  const { updateGenresParam, updatePageParam } = useUpdateParams();
   const { genres } = useTypedSelector(state => state.genre);
 
+  const handleClick = (genreId: number) => {
+    updatePageParam(1);
+    updateGenresParam(genreId);
+  };
   return (
     <>
       <Link to="/watch">WatchList</Link>
       {genres.map((genre: Genres) => (
-        <a
-          href="/#"
+        <div
+          onClick={() => handleClick(genre.id)}
           className="block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-700 hover:text-white"
           key={genre.id}
         >
           {genre.name}
-        </a>
+        </div>
       ))}
     </>
   );

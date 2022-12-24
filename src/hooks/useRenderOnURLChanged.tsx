@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { AppDispatch } from '../app/store';
 import { useDispatch } from 'react-redux';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useParams } from 'react-router-dom';
 import {
   fetchMovies,
   fetchMoviesQuery,
@@ -9,29 +9,30 @@ import {
   fetchMoviesQueryPage,
 } from '../features/movies/fetchMovies';
 
+// T0D0 : fix render duplicate
 function useRenderOnURLChanged() {
   const [params, setParams] = useSearchParams();
 
   const dispatch = useDispatch<AppDispatch>();
   const searchParam = params.get('search');
   const pageParam = params.get('page');
+  const genresParam = params.get('genres');
 
   useEffect(() => {
     if (searchParam && pageParam) {
       const query = searchParam;
       const page = parseInt(pageParam);
-      console.log(setParams('test'));
-      dispatch(fetchMoviesQuery({ query, page }));
+      dispatch(fetchMoviesQuery({ query: query, page: page }));
       dispatch(fetchMoviesQueryPage({ query, page })); // duplicate fetch
-    } else if (pageParam) {
-      dispatch(fetchMovies(parseInt(pageParam) || 1));
+    } else if (pageParam && genresParam) {
+      dispatch(fetchMovies({ page: parseInt(pageParam) || 1, genreId: parseInt(genresParam) }));
       dispatch(fetchMoviesTotalPage(parseInt(pageParam) || 1));
     } else {
-      dispatch(fetchMovies(1));
+      dispatch(fetchMovies({ page: 1 }));
       dispatch(fetchMoviesTotalPage(1));
     }
-  }, [dispatch, pageParam, searchParam]);
-  return { pageParam, searchParam };
+  }, [dispatch, pageParam, searchParam, genresParam, setParams]);
+  return { pageParam, searchParam, genresParam };
 }
 
 export default useRenderOnURLChanged;

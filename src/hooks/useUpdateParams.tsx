@@ -13,7 +13,12 @@ function useUpdateParams() {
     setParams(params);
   };
 
-  return { updatePageParam, updateSearchParam };
+  const updateGenresParam = (param: string | number) => {
+    params.set('genres', param.toString());
+    setParams(params);
+  };
+
+  return { updatePageParam, updateSearchParam, updateGenresParam };
 }
 
 export default useUpdateParams;
