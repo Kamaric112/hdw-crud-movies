@@ -1,11 +1,9 @@
 import MovieCard from '../features/movies/MovieCard';
-import { RootState, AppDispatch } from '../app/store';
-import { useSelector, TypedUseSelectorHook, useDispatch } from 'react-redux';
+import { RootState } from '../app/store';
+import { useSelector, TypedUseSelectorHook } from 'react-redux';
 import { Movie } from '../features/movies/type';
 import Paginator from '../components/Paginator';
-import MainHeader from '../components/MainHeader';
 import useUpdateParams from '../hooks/useUpdateParams';
-import { fetchMovies } from '../features/movies/fetchMovies';
 import { useEffect, useState } from 'react';
 import useRenderOnURLChanged from '../hooks/useRenderOnURLChanged';
 
@@ -17,7 +15,6 @@ function HomePage() {
   const { movies } = useTypedSelector(state => state.movie);
   const { updatePageParam } = useUpdateParams();
   const { pageParam } = useRenderOnURLChanged();
-  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     if (typeof pageParam == 'string') {
@@ -32,7 +29,7 @@ function HomePage() {
 
   return (
     <div className="flex-1  text-2x1 font-bold flex flex-col justify-between items-center">
-      <MainHeader />
+      {/* <MainHeader /> */}
       <Paginator currentPage={currentPage} totalPage={totalPage} onPageChanged={handlePageChanged} />
 
       <div className="flex h-full items-start justify-evenly flex-wrap bg-indigo-50 px-4 gap-5">

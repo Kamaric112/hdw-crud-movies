@@ -23,7 +23,12 @@ function SideBar() {
   };
   return (
     <>
-      <Link to="/watch">WatchList</Link>
+      <Link
+        className="block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-700 hover:text-white"
+        to="/watch"
+      >
+        WatchList
+      </Link>
       {genres.map((genre: Genres) => (
         <div
           onClick={() => handleClick(genre.id)}
