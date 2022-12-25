@@ -27,6 +27,8 @@ function useRenderOnURLChanged() {
     } else if (pageParam && genresParam) {
       dispatch(fetchMovies({ page: parseInt(pageParam) || 1, genreId: parseInt(genresParam) }));
       dispatch(fetchMoviesTotalPage(parseInt(pageParam) || 1));
+    } else if (pageParam) {
+      dispatch(fetchMovies({ page: parseInt(pageParam) }));
     } else {
       dispatch(fetchMovies({ page: 1 }));
       dispatch(fetchMoviesTotalPage(1));

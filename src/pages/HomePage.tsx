@@ -27,7 +27,6 @@ function HomePage() {
 
   const handlePageChanged = (page: number) => {
     setCurrentPage(page);
-    dispatch(fetchMovies({ page: page }));
     updatePageParam(page);
   };
 
