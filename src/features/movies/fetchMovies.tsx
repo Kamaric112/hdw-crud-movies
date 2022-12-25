@@ -18,14 +18,6 @@ export const fetchMoviesTotalPage = createAsyncThunk<number, number>('movies/fet
   return response;
 });
 
-// export const fetchMoviesQuery = createAsyncThunk<Movie[], string | null>(
-//   'movies/fetchQuery',
-//   async (query = null) => {
-//     const response = await fetchMoviesWithQuery(query)
-//     return response
-//   },
-// )
-
 export const fetchMoviesQuery = createAsyncThunk(
   'movies/fetchQuery',
   async ({ query, page = 1 }: { query: string | null; page?: number }) => {
@@ -40,4 +32,4 @@ export const fetchMoviesQueryPage = createAsyncThunk(
     const response = await fetchMoviesQueryWithPage(query, page);
     return response;
   },
-); // ASK
+);

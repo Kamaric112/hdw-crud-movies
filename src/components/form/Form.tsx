@@ -8,7 +8,6 @@ export interface FormProps<T> {
   validationSchema: AnyObjectSchema;
   onSubmit?: (values: T) => void;
 }
-// add default values
 function Form<T extends FieldValues>({ onSubmit, validationSchema, children }: FormProps<T>) {
   const formHandler = useForm<T>({
     resolver: yupResolver(validationSchema),

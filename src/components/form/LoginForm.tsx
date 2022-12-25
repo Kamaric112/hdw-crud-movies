@@ -13,31 +13,6 @@ interface LoginFormProps {
 }
 
 export default function LoginForm({ loginSchema, onSubmit }: LoginFormProps) {
-  // const { login } = useLogin()
-  // const { isAuthenticated } = useAuth()
-  // const loginSchema = Yup.object().shape({
-  //   username: Yup.string().email('Invalid username').required('Username is required'),
-  //   password: Yup.string().required('Password is required'),
-  // })
-
-  // const navigate = useNavigate()
-
-  // const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
-  //   console.log(data)
-  //   const username = data.username
-  //   const password = data.password
-  //   login({ username: username, password: password })
-  //   if (isAuthenticated) navigate('/', { replace: true })
-  // }
-
-  // const onSubmit = (data: Inputs) => {
-  //   console.log(data)
-  //   const username = data.username
-  //   const password = data.password
-  //   login({ username: username, password: password })
-  //   if (isAuthenticated) navigate('/', { replace: true })
-  // }
-
   return (
     <div className="bg-gray-400 h-screen overflow-hidden flex items-center justify-center">
       <div className="bg-white lg:w-5/12 md:6/12 w-10/12 shadow-3xl">

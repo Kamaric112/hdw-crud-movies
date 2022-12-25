@@ -30,12 +30,6 @@ const slice = createSlice({
         state.error = 'test';
         state.movies = action.payload;
       }),
-      // builder.addCase(fetchMovies.fulfilled, (state, action) => {
-      //   const { results, total_pages }:Test = action.payload
-      //   state.error = 'test'
-      //   console.log(results)
-      //   state.movies = results
-      // }),
       builder.addCase(fetchMovies.rejected, state => {
         state.error = 'error';
       }),

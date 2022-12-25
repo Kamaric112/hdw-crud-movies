@@ -13,7 +13,6 @@ const fetchMoviesData = async (page: number, genreId?: number): Promise<Movie[]>
 
 export const fetchMoviesPage = async (page: number): Promise<number> => {
   const response = await apiService.get(`/movie/popular?api_key=${APIKEY}&language=en-US&page=${page}`);
-  // console.log(response.data)
 
   return response.data.total_pages;
 };

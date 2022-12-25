@@ -9,7 +9,6 @@ import {
   fetchMoviesQueryPage,
 } from '../features/movies/fetchMovies';
 
-// T0D0 : fix render duplicate
 function useRenderOnURLChanged() {
   const [params, setParams] = useSearchParams();
 
@@ -23,7 +22,7 @@ function useRenderOnURLChanged() {
       const query = searchParam;
       const page = parseInt(pageParam);
       dispatch(fetchMoviesQuery({ query: query, page: page }));
-      dispatch(fetchMoviesQueryPage({ query, page })); // duplicate fetch
+      dispatch(fetchMoviesQueryPage({ query, page }));
     } else if (pageParam && genresParam) {
       dispatch(fetchMovies({ page: parseInt(pageParam) || 1, genreId: parseInt(genresParam) }));
       dispatch(fetchMoviesTotalPage(parseInt(pageParam) || 1));
