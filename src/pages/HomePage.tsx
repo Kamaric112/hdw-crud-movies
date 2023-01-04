@@ -32,7 +32,7 @@ function HomePage() {
       {/* <MainHeader /> */}
       <Paginator currentPage={currentPage} totalPage={totalPage} onPageChanged={handlePageChanged} />
 
-      <div className="flex h-full items-start justify-evenly flex-wrap bg-indigo-50 px-4 gap-5">
+      <div className="flex h-full items-start justify-evenly flex-wrap bg-indigo-50 px-4 gap-8 overflow-auto">
         {movies.map((movie: Movie) => (
           <MovieCard movie={movie} key={movie.id} />
         ))}
